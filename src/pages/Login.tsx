@@ -23,6 +23,7 @@ import { Separator } from "@/components/ui/separator";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/context/AuthContext";
 import { useToast } from "@/hooks/use-toast";
+import { TermsAndConditionsModal } from "@/components/TermsAndConditionsModal";
 
 export default function Login() {
   const [showPassword, setShowPassword] = useState(false);
@@ -42,6 +43,7 @@ export default function Login() {
 
   // General State
   const [isTermsAccepted, setIsTermsAccepted] = useState(true); // Auto-accepted for smoother UX
+  const [showTermsModal, setShowTermsModal] = useState(false);
 
   const navigate = useNavigate();
   const { signIn, signUp, signInWithGoogle, signInWithMobileMock } = useAuth();
@@ -372,7 +374,7 @@ export default function Login() {
                         htmlFor="terms"
                         className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
                       >
-                        I agree to the <a href="#" className="text-primary hover:underline">Terms of Service</a> and <a href="#" className="text-primary hover:underline">Privacy Policy</a>
+                        I agree to the <button type="button" onClick={(e) => { e.preventDefault(); setShowTermsModal(true); }} className="text-primary hover:underline">Terms of Service</button> and <a href="#" className="text-primary hover:underline">Privacy Policy</a>
                       </label>
                       <p className="text-xs text-muted-foreground">
                         Required to proceed.
@@ -430,6 +432,8 @@ export default function Login() {
           </Card>
 
 
+          {/* Terms and Conditions Modal */}
+          <TermsAndConditionsModal open={showTermsModal} onOpenChange={setShowTermsModal} />
         </div>
       </div>
     </div>
